@@ -1,12 +1,12 @@
 -- =================================================================
 -- Project: SaaS Subscription & Churn Analytics
--- Script: 02_metrics_analysis.sql
+-- Script: 02_contract_churn_analysis.sql
 -- Description: Business metrics and churn rate analysis by contract
 -- =================================================================
 
-DROP TABLE IF EXISTS saas_metrics_analysis;
+DROP TABLE IF EXISTS saas_contract_churn_analysis;
 
-CREATE TABLE saas_metrics_analysis AS 
+CREATE TABLE saas_contract_churn_analysis AS 
 WITH contract_metrics AS (
     SELECT 
         contract_type,
@@ -61,5 +61,5 @@ SELECT
     lost_mrr_pct,
     arpu,
     avg_tenure_months
-FROM saas_metrics_analysis
+FROM saas_contract_churn_analysis
 ORDER BY churn_rate_pct DESC;
