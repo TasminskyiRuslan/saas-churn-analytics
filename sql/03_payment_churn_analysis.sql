@@ -4,9 +4,9 @@
 -- Description: Business metrics and churn rate analysis by payment method
 -- =================================================================
 
-DROP TABLE IF EXISTS saas_payment_churn_analysis;
+DROP VIEW IF EXISTS saas_payment_churn_analysis;
 
-CREATE TABLE saas_payment_churn_analysis AS 
+CREATE VIEW saas_payment_churn_analysis AS 
 WITH payment_metrics AS (
     SELECT 
         payment_method,

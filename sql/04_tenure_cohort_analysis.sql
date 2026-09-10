@@ -1,6 +1,12 @@
-DROP TABLE IF EXISTS saas_tenure_cohort_analysis;
+-- =================================================================
+-- Project: SaaS Subscription & Churn Analytics
+-- Script: 04_tenure_cohort_analysis.sql
+-- Description: Business metrics and churn rate analysis by tenure cohort
+-- =================================================================
 
-CREATE TABLE saas_tenure_cohort_analysis AS
+DROP VIEW IF EXISTS saas_tenure_cohort_analysis;
+
+CREATE VIEW saas_tenure_cohort_analysis AS
 WITH tenure_grouping AS (
     SELECT
         customer_id,

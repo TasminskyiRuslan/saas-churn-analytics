@@ -4,9 +4,9 @@
 -- Description: Business metrics and churn rate analysis by contract
 -- =================================================================
 
-DROP TABLE IF EXISTS saas_contract_churn_analysis;
+DROP VIEW IF EXISTS saas_contract_churn_analysis;
 
-CREATE TABLE saas_contract_churn_analysis AS 
+CREATE VIEW saas_contract_churn_analysis AS 
 WITH contract_metrics AS (
     SELECT 
         contract_type,
