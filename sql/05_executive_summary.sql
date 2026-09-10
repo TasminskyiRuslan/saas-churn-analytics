@@ -1,31 +1,14 @@
 -- =================================================================
 -- Project: SaaS Subscription & Churn Analytics
--- Script: 04_tenure_cohort_analysis.sql
--- Description: Business metrics and churn rate analysis by tenure cohort
+-- Script: 05_executive_summary.sql
+-- Description: Executive summary — aggregate KPIs across all customers
 -- =================================================================
 
-DROP VIEW IF EXISTS saas_tenure_cohort_analysis;
+DROP VIEW IF EXISTS saas_executive_summary;
 
-CREATE VIEW saas_tenure_cohort_analysis AS
-WITH tenure_grouping AS (
-    SELECT
-        customer_id,
-        is_churned,
-        monthly_charges,
-        tenure_months,
-        CASE
-            WHEN tenure_months <= 6 THEN '0-6 Months'
-            WHEN tenure_months <= 12 THEN '7-12 Months'
-            WHEN tenure_months <= 24 THEN '13-24 Months'
-            WHEN tenure_months <= 36 THEN '25-36 Months'
-            WHEN tenure_months <= 48 THEN '37-48 Months'
-            ELSE '> 48 Months'
-        END AS tenure_cohort
-    FROM dim_saas_customers
-),
-tenure_metrics AS (
-    SELECT
-        tenure_cohort,
+CREATE VIEW saas_executive_summary AS
+WITH global_metrics AS (
+    SELECT 
         COUNT(customer_id) AS total_customers,
         COUNT(customer_id) FILTER(WHERE NOT is_churned) AS active_customers,
         COUNT(customer_id) FILTER(WHERE is_churned) AS churned_customers,
@@ -33,12 +16,9 @@ tenure_metrics AS (
         SUM(monthly_charges) FILTER(WHERE NOT is_churned) AS active_mrr,
         SUM(monthly_charges) FILTER(WHERE is_churned) AS lost_mrr,
         AVG(tenure_months) AS avg_tenure_months
-    FROM tenure_grouping
-    GROUP BY tenure_cohort
-),
-tenure_churn_rates AS (
-    SELECT
-        tenure_cohort,
+    FROM dim_saas_customers
+), global_kpis AS (
+    SELECT 
         total_customers,
         active_customers,
         churned_customers,
@@ -49,10 +29,9 @@ tenure_churn_rates AS (
         (lost_mrr / NULLIF(total_mrr, 0)) * 100 AS lost_mrr_pct,
         active_mrr / NULLIF(active_customers, 0) AS arpu,
         avg_tenure_months
-    FROM tenure_metrics
+    FROM global_metrics
 )
 SELECT 
-    tenure_cohort,
     total_customers,
     active_customers,
     churned_customers,
@@ -63,10 +42,9 @@ SELECT
     ROUND(lost_mrr_pct, 2) AS lost_mrr_pct,
     ROUND(arpu, 2) AS arpu,
     ROUND(avg_tenure_months, 1) AS avg_tenure_months
-FROM tenure_churn_rates;
+FROM global_kpis;
 
 SELECT 
-    tenure_cohort,
     total_customers,
     active_customers,
     churned_customers,
@@ -77,13 +55,4 @@ SELECT
     lost_mrr_pct,
     arpu,
     avg_tenure_months
-FROM saas_tenure_cohort_analysis
-ORDER BY 
-    CASE tenure_cohort
-        WHEN '0-6 Months' THEN 1
-        WHEN '7-12 Months' THEN 2
-        WHEN '13-24 Months' THEN 3
-        WHEN '25-36 Months' THEN 4
-        WHEN '37-48 Months' THEN 5
-        WHEN '> 48 Months' THEN 6
-    END ASC;
+FROM saas_executive_summary;

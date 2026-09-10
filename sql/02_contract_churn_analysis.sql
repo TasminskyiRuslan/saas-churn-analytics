@@ -31,7 +31,7 @@ contract_churn_rates AS (
         active_mrr,
         lost_mrr,
         (lost_mrr / NULLIF(total_mrr, 0)) * 100 AS lost_mrr_pct,
-        (active_mrr / NULLIF(active_customers, 0)) AS arpu,
+        active_mrr / NULLIF(active_customers, 0) AS arpu,
         avg_tenure_months
     FROM contract_metrics
 )
