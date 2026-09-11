@@ -32,6 +32,7 @@ payment_churn_rates AS (
         lost_mrr,
         (lost_mrr / NULLIF(total_mrr, 0)) * 100 AS lost_mrr_pct,
         active_mrr / NULLIF(active_customers, 0) AS arpu,
+        total_mrr / NULLIF(total_customers, 0) AS total_arpu,
         avg_tenure_months
     FROM payment_metrics
 )
@@ -46,6 +47,7 @@ SELECT
     ROUND(lost_mrr::NUMERIC, 2) AS lost_mrr,
     ROUND(lost_mrr_pct::NUMERIC, 2) AS lost_mrr_pct,
     ROUND(arpu::NUMERIC, 2) AS arpu,
+    ROUND(total_arpu::NUMERIC, 2) AS total_arpu,
     ROUND(avg_tenure_months::NUMERIC, 1) AS avg_tenure_months
 FROM payment_churn_rates;
 
