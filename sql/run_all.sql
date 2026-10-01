@@ -1,5 +1,7 @@
-\echo === 00_create_staging.sql ===
-\ir 00_create_staging.sql
+\echo === 00a_create_staging.sql ===
+\ir 00a_create_staging.sql
+\echo === 00b_staging_quality.sql ===
+\ir 00b_staging_quality.sql
 \echo === 01_data_cleaning.sql ===
 \ir 01_data_cleaning.sql
 \echo === 02_contract_churn_analysis.sql ===
