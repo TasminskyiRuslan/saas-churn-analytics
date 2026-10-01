@@ -1,2 +1,5 @@
-data/
-*.csv
+data/output/
+*.pbix
+.venv/
+__pycache__/
+.ipynb_checkpoints/
