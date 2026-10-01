@@ -4,9 +4,9 @@
 -- Description: Business metrics and churn rate analysis by contract
 -- =================================================================
 
-DROP VIEW IF EXISTS saas_contract_churn_analysis;
+DROP VIEW IF EXISTS analytics.saas_contract_churn_analysis;
 
-CREATE VIEW saas_contract_churn_analysis AS 
+CREATE VIEW analytics.saas_contract_churn_analysis AS 
 WITH contract_metrics AS (
     SELECT 
         contract_type,
@@ -17,7 +17,7 @@ WITH contract_metrics AS (
         SUM(monthly_charges) FILTER (WHERE NOT is_churned) AS active_mrr,
         SUM(monthly_charges) FILTER (WHERE is_churned) AS lost_mrr,
         AVG(tenure_months) AS avg_tenure_months
-    FROM dim_saas_customers
+    FROM analytics.dim_saas_customers
     GROUP BY contract_type
 ),
 contract_churn_rates AS (
@@ -63,5 +63,5 @@ SELECT
     lost_mrr_pct,
     arpu,
     avg_tenure_months
-FROM saas_contract_churn_analysis
+FROM analytics.saas_contract_churn_analysis
 ORDER BY churn_rate_pct DESC;

@@ -4,9 +4,9 @@
 -- Description: Executive summary — aggregate KPIs across all customers
 -- =================================================================
 
-DROP VIEW IF EXISTS saas_executive_summary;
+DROP VIEW IF EXISTS analytics.saas_executive_summary;
 
-CREATE VIEW saas_executive_summary AS
+CREATE VIEW analytics.saas_executive_summary AS
 WITH global_metrics AS (
     SELECT 
         COUNT(customer_id) AS total_customers,
@@ -16,7 +16,7 @@ WITH global_metrics AS (
         SUM(monthly_charges) FILTER(WHERE NOT is_churned) AS active_mrr,
         SUM(monthly_charges) FILTER(WHERE is_churned) AS lost_mrr,
         AVG(tenure_months) AS avg_tenure_months
-    FROM dim_saas_customers
+    FROM analytics.dim_saas_customers
 ), global_kpis AS (
     SELECT 
         total_customers,
@@ -58,4 +58,4 @@ SELECT
     arpu,
     total_arpu,
     avg_tenure_months
-FROM saas_executive_summary;
+FROM analytics.saas_executive_summary;

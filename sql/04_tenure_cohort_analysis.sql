@@ -4,9 +4,9 @@
 -- Description: Business metrics and churn rate analysis by tenure cohort
 -- =================================================================
 
-DROP VIEW IF EXISTS saas_tenure_cohort_analysis;
+DROP VIEW IF EXISTS analytics.saas_tenure_cohort_analysis;
 
-CREATE VIEW saas_tenure_cohort_analysis AS
+CREATE VIEW analytics.saas_tenure_cohort_analysis AS
 WITH tenure_grouping AS (
     SELECT
         customer_id,
@@ -21,7 +21,7 @@ WITH tenure_grouping AS (
             WHEN tenure_months <= 48 THEN '37-48 Months'
             ELSE '> 48 Months'
         END AS tenure_cohort
-    FROM dim_saas_customers
+    FROM analytics.dim_saas_customers
 ),
 tenure_metrics AS (
     SELECT
@@ -80,7 +80,7 @@ SELECT
     arpu,
     total_arpu,
     avg_tenure_months
-FROM saas_tenure_cohort_analysis
+FROM analytics.saas_tenure_cohort_analysis
 ORDER BY 
     CASE tenure_cohort
         WHEN '0-6 Months' THEN 1

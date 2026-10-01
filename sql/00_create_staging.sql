@@ -1,12 +1,15 @@
 -- =================================================================
 -- Project: SaaS Subscription & Churn Analytics
 -- Script: 00_create_staging.sql
--- Description: Create staging schema and raw table for CSV import
+-- Description: Create schemas, raw staging table, load CSV
 -- =================================================================
 
-DROP TABLE IF EXISTS raw_saas_subscriptions;
+CREATE SCHEMA IF NOT EXISTS staging;
+CREATE SCHEMA IF NOT EXISTS analytics;
 
-CREATE TABLE raw_saas_subscriptions (
+DROP TABLE IF EXISTS staging.raw_saas_subscriptions;
+
+CREATE TABLE staging.raw_saas_subscriptions (
     customerid VARCHAR(50),
     gender VARCHAR(20),
     seniorcitizen INT,
@@ -29,3 +32,5 @@ CREATE TABLE raw_saas_subscriptions (
     totalcharges VARCHAR(50),
     churn VARCHAR(10)
 );
+
+\copy staging.raw_saas_subscriptions FROM '/data/raw/Telco-Customer-Churn.csv' WITH (FORMAT csv, HEADER true)

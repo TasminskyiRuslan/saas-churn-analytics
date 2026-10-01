@@ -4,9 +4,9 @@
 -- Description: Business metrics and churn rate analysis by payment method
 -- =================================================================
 
-DROP VIEW IF EXISTS saas_payment_churn_analysis;
+DROP VIEW IF EXISTS analytics.saas_payment_churn_analysis;
 
-CREATE VIEW saas_payment_churn_analysis AS 
+CREATE VIEW analytics.saas_payment_churn_analysis AS 
 WITH payment_metrics AS (
     SELECT 
         payment_method,
@@ -17,7 +17,7 @@ WITH payment_metrics AS (
         SUM(monthly_charges) FILTER(WHERE NOT is_churned) AS active_mrr,
         SUM(monthly_charges) FILTER(WHERE is_churned) AS lost_mrr,
         AVG(tenure_months) AS avg_tenure_months
-    FROM dim_saas_customers
+    FROM analytics.dim_saas_customers
     GROUP BY payment_method
 ), 
 payment_churn_rates AS (
@@ -63,5 +63,5 @@ SELECT
     lost_mrr_pct,
     arpu,
     avg_tenure_months
-FROM saas_payment_churn_analysis
+FROM analytics.saas_payment_churn_analysis
 ORDER BY churn_rate_pct DESC;

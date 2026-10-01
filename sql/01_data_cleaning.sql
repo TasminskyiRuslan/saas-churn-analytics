@@ -4,9 +4,9 @@
 -- Description: Clean staging data and populate core dim_saas_customers table
 -- =================================================================
 
-DROP TABLE IF EXISTS dim_saas_customers;
+DROP TABLE IF EXISTS analytics.dim_saas_customers CASCADE;
 
-CREATE TABLE dim_saas_customers (
+CREATE TABLE analytics.dim_saas_customers (
     customer_key BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     customer_id VARCHAR(50) NOT NULL UNIQUE,
     gender VARCHAR(20) NOT NULL,
@@ -31,7 +31,7 @@ CREATE TABLE dim_saas_customers (
     is_churned BOOLEAN NOT NULL
 );
 
-INSERT INTO dim_saas_customers (
+INSERT INTO analytics.dim_saas_customers (
     customer_id,
     gender,
     senior_citizen,
@@ -79,9 +79,9 @@ SELECT
         ELSE CAST(totalcharges AS NUMERIC(10, 2))
     END AS total_charges,
     (churn = 'Yes') AS is_churned
-FROM raw_saas_subscriptions
+FROM staging.raw_saas_subscriptions
 WHERE customerid IS NOT NULL 
     AND monthlycharges >= 0;
 
-CREATE INDEX idx_saas_customers_contract ON dim_saas_customers(contract_type);
-CREATE INDEX idx_saas_customers_churn ON dim_saas_customers(is_churned);
+CREATE INDEX idx_saas_customers_contract ON analytics.dim_saas_customers(contract_type);
+CREATE INDEX idx_saas_customers_churn ON analytics.dim_saas_customers(is_churned);
