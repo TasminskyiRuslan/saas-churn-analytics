@@ -1,6 +1,6 @@
 -- =================================================================
 -- Project: SaaS Subscription & Churn Analytics
--- Script: 01_data_cleaning.sql
+-- Script: 02_data_cleaning.sql
 -- Description: Clean staging data and populate core dim_saas_customers table
 -- =================================================================
 

@@ -1,6 +1,6 @@
 -- =================================================================
 -- Project: SaaS Subscription & Churn Analytics
--- Script: 05_executive_summary.sql
+-- Script: 04_executive_summary.sql
 -- Description: Executive summary — aggregate KPIs across all customers
 -- =================================================================
 

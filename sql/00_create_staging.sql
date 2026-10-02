@@ -1,6 +1,6 @@
 -- =================================================================
 -- Project: SaaS Subscription & Churn Analytics
--- Script: 00a_create_staging.sql
+-- Script: 00_create_staging.sql
 -- Description: Create schemas, raw staging table, load CSV
 -- =================================================================
 

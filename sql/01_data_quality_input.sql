@@ -1,6 +1,6 @@
 -- =================================================================
 -- Project: SaaS Subscription & Churn Analytics
--- Script: 00b_staging_quality.sql
+-- Script: 01_data_quality_input.sql
 -- Description: Input assertions on raw staging data (fail before transform)
 -- =================================================================
 
