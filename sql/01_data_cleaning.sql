@@ -85,3 +85,16 @@ WHERE customerid IS NOT NULL
 
 CREATE INDEX idx_saas_customers_contract ON analytics.dim_saas_customers(contract_type);
 CREATE INDEX idx_saas_customers_churn ON analytics.dim_saas_customers(is_churned);
+
+DO $$
+DECLARE
+    v_raw INT;
+    v_dim INT;
+BEGIN
+    SELECT COUNT(*) INTO v_raw FROM staging.raw_saas_subscriptions;
+    SELECT COUNT(*) INTO v_dim FROM analytics.dim_saas_customers;
+    IF v_dim <> v_raw THEN
+        RAISE EXCEPTION 'TRANSFORM FAIL: dim rows = %, staging rows = %', v_dim, v_raw;
+    END IF;
+    RAISE NOTICE 'TRANSFORM OK: % rows passed cleaning', v_dim;
+END $$;
