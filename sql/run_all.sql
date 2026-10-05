@@ -8,3 +8,5 @@
 \ir 03_churn_drivers.sql
 \echo === 04_executive_summary.sql ===
 \ir 04_executive_summary.sql
+\echo === 05_ltv_revenue.sql ===
+\ir 05_ltv_revenue.sql
